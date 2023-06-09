@@ -2,41 +2,43 @@ package com.eshopping_zone.kalyani_ijardar.product_service.model;
 
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+//import jakarta.annotation.Nonnull;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "products")
 public class Product {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int productId;
+	private String productId;
 	
-	@Nonnull
+	
 	private String productType;
-	@Nonnull
+	
 	private String productName;
-	@Nonnull
+	
 	private String category;
-	@Nonnull
+	
 	private double rating;
-	@Nonnull
+	
 	private List<String> reviews;
-	@Nonnull
+	
 	private double price;
-	@Nonnull
+	
 	private String description;
 	
 	private String specification;
 
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
@@ -104,7 +106,7 @@ public class Product {
 		this.specification = specification;
 	}
 
-	public Product(int productId, String productType, String productName, String category, double rating,
+	public Product(String productId, String productType, String productName, String category, double rating,
 			List<String> reviews, double price, String description, String specification) {
 		super();
 		this.productId = productId;

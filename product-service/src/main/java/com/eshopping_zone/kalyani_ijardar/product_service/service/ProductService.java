@@ -9,17 +9,17 @@ import com.eshopping_zone.kalyani_ijardar.product_service.model.Product;
 
 public interface ProductService {
 	
-	public void addProducts(Product product);
+	public Product addProducts(Product product);
 	
 	public List<Product> getAllProducts();
 	
-	public Optional<Product> getProductById(int productId);
+	public Optional<Product> getProductById(String productId);
 	
 	public Optional<Product> getProductByName(String productName);
 	
-	public Product updateProducts(int productId, Product product);
+	public Product updateProducts(String productId, Product product);
 	
-	public void deleteProductById(int productId);
+	public void deleteProductById(String productId);
 	
 	public List<Product> getProductByCategory(String category);
 	

@@ -33,8 +33,8 @@ class ProductServiceApplicationTests {
 		review.add("good");
 		review.add("superb");
 		List<Product> products = new ArrayList<Product>();
-		products.add(new Product(101,"Men Clothing","Tshirt","Fashion",4.3,review,230,"Cotton Tshirts","Machine Washable"));
-		products.add(new Product(102,"Women Clothing","Tees","Fashion",4.9,review,450,"Comfy Tshirts","Machine Washable"));
+		products.add(new Product("101","Men Clothing","Tshirt","Fashion",4.3,review,230,"Cotton Tshirts","Machine Washable"));
+		products.add(new Product("102","Women Clothing","Tees","Fashion",4.9,review,450,"Comfy Tshirts","Machine Washable"));
 		when(repo.findAll()).thenReturn(products);
 		assertEquals(2, service.getAllProducts().size());
 	
