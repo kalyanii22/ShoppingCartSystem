@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.eshopping_zone.kalyani_ijardar.product_service.model.Product;
 import com.eshopping_zone.kalyani_ijardar.product_service.repository.ProductRepository;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -15,12 +16,18 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository repo;
 	
+	private final MongoTemplate mongoTemplate;
 	
-	@Override
-	public void addProducts(Product product) {
-		
-		repo.save(product);
-	}
+	@Autowired
+    public ProductServiceImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public Product addProducts(Product product) {
+        // Generate a unique ID for the product
+        product.setProductId(java.util.UUID.randomUUID().toString());
+        return mongoTemplate.insert(product);
+    }
 
 	@Override
 	public List<Product> getAllProducts() {
@@ -29,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Optional<Product> getProductById(int productId) {
+	public Optional<Product> getProductById(String productId) {
 		
 		Optional<Product> product = repo.findById(productId);
 		return product;
@@ -43,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product updateProducts(int productId,Product newProduct) {
+	public Product updateProducts(String productId,Product newProduct) {
 		
 		Product previousProduct = repo.findById(productId).orElse(null);
 		if(previousProduct!=null) {
@@ -56,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProductById(int productId) {
+	public void deleteProductById(String productId) {
 		
 		Product product = repo.findById(productId).orElse(null);
 		if(product!=null) {
