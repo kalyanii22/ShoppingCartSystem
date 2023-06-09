@@ -16,9 +16,12 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository repo;
 	
-	private final MongoTemplate mongoTemplate = null;
-
-    
+	private final MongoTemplate mongoTemplate;
+	
+	@Autowired
+    public ProductServiceImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     public Product addProducts(Product product) {
         // Generate a unique ID for the product
