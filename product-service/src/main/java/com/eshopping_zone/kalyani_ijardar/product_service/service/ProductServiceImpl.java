@@ -2,13 +2,14 @@ package com.eshopping_zone.kalyani_ijardar.product_service.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eshopping_zone.kalyani_ijardar.product_service.exception.ProductNotFoundException;
 import com.eshopping_zone.kalyani_ijardar.product_service.model.Product;
 import com.eshopping_zone.kalyani_ijardar.product_service.repository.ProductRepository;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -16,17 +17,15 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository repo;
 	
-	private final MongoTemplate mongoTemplate;
 	
-	@Autowired
-    public ProductServiceImpl(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
 
     public Product addProducts(Product product) {
-        // Generate a unique ID for the product
-        product.setProductId(java.util.UUID.randomUUID().toString());
-        return mongoTemplate.insert(product);
+    	Random random = new Random();
+        int productId = random.nextInt(100000); 
+
+        product.setProductId(productId);
+
+        return repo.save(product);
     }
 
 	@Override
@@ -36,9 +35,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Optional<Product> getProductById(String productId) {
+	public Product getProductById(int productId) {
 		
-		Optional<Product> product = repo.findById(productId);
+		Product product = repo.findByProductId(productId);
 		return product;
 	}
 
@@ -50,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product updateProducts(String productId,Product newProduct) {
+	public Product updateProducts(int productId,Product newProduct) throws ProductNotFoundException {
 		
 		Product previousProduct = repo.findById(productId).orElse(null);
 		if(previousProduct!=null) {
@@ -58,17 +57,19 @@ public class ProductServiceImpl implements ProductService {
 			repo.delete(previousProduct);
 			repo.save(newProduct);
 			return newProduct;
+		} else {
+			throw new ProductNotFoundException("Product not found with id: "+productId);
 		}
-		return null;
 	}
 
 	@Override
-	public void deleteProductById(String productId) {
+	public void deleteProductById(int productId) throws ProductNotFoundException {
 		
 		Product product = repo.findById(productId).orElse(null);
 		if(product!=null) {
-			repo.delete(product);
-			
+			repo.delete(product);	
+		} else {
+			throw new ProductNotFoundException("Product not found with id: "+productId);
 		}
 		
 	}

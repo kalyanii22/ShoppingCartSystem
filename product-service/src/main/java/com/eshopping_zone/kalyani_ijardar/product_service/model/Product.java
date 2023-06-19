@@ -2,43 +2,41 @@ package com.eshopping_zone.kalyani_ijardar.product_service.model;
 
 import java.util.List;
 
-//import jakarta.annotation.Nonnull;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "products")
 public class Product {
 	
 	@Id
-	private String productId;
+	private int productId;
 	
-	
+	@NotBlank(message = "product type can't be empty")
 	private String productType;
-	
+	@NotBlank(message = "product name can't be empty")
 	private String productName;
-	
+	@NotBlank(message = "category can't be empty")
 	private String category;
-	
 	private double rating;
 	
 	private List<String> reviews;
 	
+	@Min(10)
 	private double price;
-	
+	@NotNull(message = "description can't be empty")
 	private String description;
-	
+	@NotNull(message = "specification can't be empty")
 	private String specification;
 
-	public String getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
@@ -106,7 +104,7 @@ public class Product {
 		this.specification = specification;
 	}
 
-	public Product(String productId, String productType, String productName, String category, double rating,
+	public Product(int productId, String productType, String productName, String category, double rating,
 			List<String> reviews, double price, String description, String specification) {
 		super();
 		this.productId = productId;

@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.eshopping_zone.kalyani_ijardar.product_service.model.Product;
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String> {
+public interface ProductRepository extends MongoRepository<Product, Integer> {
 	
+	Product findByProductId(int productId);
 	Optional<Product> findByProductName(String productName);
 	List<Product> findByCategory(String category);
 	List<Product> findByProductType(String productType);

@@ -13,3 +13,9 @@ spring:
           lb://product-service
         predicates:
         - Path=/eshoppingzone/product/**
+        
+      - id: cart-service
+        uri:
+          lb://cart-service
+        predicates:
+        - Path=/eshoppingzone/cart/**
