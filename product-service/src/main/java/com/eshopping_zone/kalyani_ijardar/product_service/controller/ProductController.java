@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eshopping_zone.kalyani_ijardar.product_service.exception.ProductNotFoundException;
 import com.eshopping_zone.kalyani_ijardar.product_service.model.Product;
 import com.eshopping_zone.kalyani_ijardar.product_service.service.ProductService;
+
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -25,7 +28,7 @@ public class ProductController {
 	private ProductService service;
 	
 	@PostMapping("/addProducts")
-	public void addProducts(@RequestBody Product product) {
+	public void addProducts(@RequestBody @Valid Product product) {
 		
 		service.addProducts(product);
 	}
@@ -37,7 +40,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/getProductById/{productId}")
-	public Optional<Product> getProductById(@PathVariable String productId) {
+	public Product getProductById(@PathVariable int productId) {
 		
 		return service.getProductById(productId);
 	}
@@ -49,13 +52,13 @@ public class ProductController {
 	}
 	
 	@PutMapping("/updateProducts/{productId}")
-	public Product updateProducts(@PathVariable String productId,@RequestBody Product product) {
+	public Product updateProducts(@PathVariable int productId,@RequestBody Product product) throws ProductNotFoundException {
 		
 		return service.updateProducts(productId, product);
 	}
 	
 	@DeleteMapping("/deleteProductById/{productId}")
-	public void deleteProductById(@PathVariable String productId) {
+	public void deleteProductById(@PathVariable int productId) throws ProductNotFoundException {
 		
 		service.deleteProductById(productId);
 	}
